@@ -1481,11 +1481,16 @@ export default createReactClass({
         });
 
         cli.on("crypto.verification.start", (verifier) => {
-            Modal.createTrackedDialog('Incoming Verification', '', IncomingSasDialog, {
-                verifier,
+            dis.dispatch({
+                action: "show_toast",
+                toast: {
+                    title: _t("Verification Request"),
+                    icon: "verification",
+                    props: {verifier},
+                    component: sdk.getComponent("toasts.VerificationRequestToast"),
+                },
             });
         });
-
         // Fire the tinter right on startup to ensure the default theme is applied
         // A later sync can/will correct the tint to be the right value for the user
         const colorScheme = SettingsStore.getValue("roomColor");
